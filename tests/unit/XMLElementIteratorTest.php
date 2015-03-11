@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the XMLReaderIterator package.
  *
@@ -50,7 +51,7 @@ class XMLElementIteratorTest extends PHPUnit_Framework_TestCase
 
         $it->rewind();
         $this->assertEquals(true, $it->valid());
-        $this->assertEquals("has", (string) $it);
+        $this->assertEquals("has", (string)$it);
         $this->assertEquals("has", $it->readString());
     }
 
@@ -109,8 +110,10 @@ class XMLElementIteratorTest extends PHPUnit_Framework_TestCase
         $it = new XMLElementIterator($reader, $localName);
 
         $it->rewind();
-        $this->assertSame($localName, $reader->localName);
-        $this->assertSame("name:$localName", $reader->name);
+        $this->assertSame($localName, $reader->localName, 'local-name');
+        $this->assertSame("name", $reader->prefix, 'prefix');
+        $this->assertSame("name:$localName", $reader->name, 'name');
+        $this->assertSame("space:1", $reader->namespaceURI, 'namespace-uri');
 
         $it->next();
         $this->assertSame($localName, $reader->name);
@@ -139,7 +142,7 @@ class XMLElementIteratorTest extends PHPUnit_Framework_TestCase
     function iterateOverNamedElements()
     {
         $reader = new XMLReaderStub('<r><a>1</a><a>2</a><b>c</b><a>3</a></r>');
-        $it = new XMLElementIterator($reader, 'a');
+        $it     = new XMLElementIterator($reader, 'a');
 
         $this->assertEquals(null, $it->valid());
         $it->rewind();
